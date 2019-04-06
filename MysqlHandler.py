@@ -1,5 +1,5 @@
 import mysql.connector
-
+from enum import Enum
 
 """
 @Autor : Liran Nachman
@@ -16,6 +16,11 @@ Methods :
 
 - close : close connection your database ***important
  """
+
+
+class FetchType(Enum):
+    FETCH_ALL = "all",
+    FETCH_ONE = "one"
 
 class MydbHandler:
 
@@ -74,19 +79,19 @@ class MydbHandler:
     """
     execute method
     parms : query - a string that created by SelectHelper or any query
-    parms : fetchtype - a string of fetch type - one(one row) or all(all rows that selected)
+    parms : fetchtype - FetchType.FETCH_ONE or FetchType.FETCH_ALL of FetchType class
     """
     def execute(self,query:"Query string"
-        ,fetchtype:"all or one"="all") -> 'list of tuples of results selected':
+        ,fetchtype:FetchType) -> 'list of tuples of results selected':
 
-        if not(fetchtype is "all" or fetchtype is "one"):
-            raise Exception("Unvalid FetchType,must be only 0 or 1")
+        if not(fetchtype is FetchType.FETCH_ALL or fetchtype is FetchType.FETCH_ONE):
+            raise Exception("Unvalid FetchType,must be only FetchType.FETCH_ALL or FetchType.FETCH_ONE")
 
         mycursor = self.mydb.cursor()
         mycursor.execute(query)
         myresult = mycursor.fetchall() ## fetch all
         if len(myresult) > 0:
-            if fetchtype is "one": # fetch one 
+            if fetchtype is FetchType.FETCH_ONE: # fetch one 
                 myresult = myresult[0]
         else:
             return [] ## empty results
