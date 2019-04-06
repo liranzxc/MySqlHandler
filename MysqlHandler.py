@@ -2,7 +2,7 @@ import mysql.connector
 
 
 """
-@autor : Liran nachman
+@Autor : Liran Nachman
 
 MydbHandler is class that help you to created and executed easily queries 
 
