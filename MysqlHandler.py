@@ -24,34 +24,35 @@ class FetchType(Enum):
 
 class MydbHandler:
 
-    """
-    init method
-    parms:localhost  - host\domain name 
-    parms : username - your username of database
-    parms : password - your password of database
-    parms : databasename - your name database
-    """
+   
     def __init__(self,localhost:"host web name",username : "Your username to database",
         password : "your password to database",databasename:"your name database "):
+
+        """
+        
+        param : localhost -string  host\domain name \n 
+        param : username -string your username of database \n
+        param : password -string your password of database \n
+        param : databasename -string your name database \n
+        """
+        
         self.mydb = mysql.connector.connect(
         host=localhost,
         user=username,
         passwd=password,
         database=databasename)
 
- 
-    
-    """
-    SelectHelper method
-    parms:tablename  - name of table 
-    parms : fields - a list of fields that your want to get
-    parms : filters - list of tuples like [("age","13"),("name","liran")] must be strings
-    parms : databasename - your name database
-    """
     
     def SelectHelper(self,tablename:"Name of table that i want selected"=None
         ,fields:"list of fields"=[]
         ,filters:"list of tuples (key,value)"=[])->'string query':
+
+        """
+        param:  tablename  -string  name of table \n
+        param : fields - a list of fields that your want to get ,for example :["name","age"] \n
+        param : filters - list of tuples like [("age","13"),("name","liran")] must be strings \n
+        
+        """
 
         if tablename is None:
             raise BaseException("Must input table name")
@@ -75,15 +76,14 @@ class MydbHandler:
 
         return query
 
-
-    """
-    execute method
-    parms : query - a string that created by SelectHelper or any query
-    parms : fetchtype - FetchType.FETCH_ONE or FetchType.FETCH_ALL of FetchType class
-    """
+   
     def execute(self,query:"Query string"
         ,fetchtype:FetchType) -> 'list of tuples of results selected':
-
+       
+        """
+        param : query - string that created by SelectHelper or any query \n
+        param : fetchtype -FetchType class  FetchType.FETCH_ONE or FetchType.FETCH_ALL \n
+        """
         if not(fetchtype is FetchType.FETCH_ALL or fetchtype is FetchType.FETCH_ONE):
             raise Exception("Unvalid FetchType,must be only FetchType.FETCH_ALL or FetchType.FETCH_ONE")
 
@@ -98,10 +98,10 @@ class MydbHandler:
     
         return myresult
 
-
-    """
-    close Method
-    close connection from database 
-    """
     def close(self):
+        """
+        close connection from database
+        
+        
+        """
         self.mydb.close()
