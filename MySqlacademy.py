@@ -8,6 +8,8 @@ from sqlalchemy import and_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import column
 from enum import Enum
+from setting import Setting
+
 
 class FetchType(Enum):
     FETCH_ALL = "all",
@@ -87,7 +89,13 @@ class MySqlHandlerAcademy:
             ## print Query
             #print(stmt)
             return results
-           
+
+
+    def Insert(self,TableName,_UserID,_Points,_Date):
+        table = self.meta.tables[TableName]
+        self.conn.execute(table.insert(),UserID=_UserID,Points=_Points,Date=_Date)
+
+
     def close(self):
         """
         close connection from database
@@ -95,3 +103,8 @@ class MySqlHandlerAcademy:
         self.conn.close()
 
     
+if __name__ == "__main__":
+    _setting = Setting()
+    db = MySqlHandlerAcademy(_setting.setting["host"],_setting.setting["username"],_setting.setting["password"],_setting.setting["database"])
+    #db.Insert("TABLE 3",[])
+    db.close()
